@@ -15,13 +15,14 @@ import java.sql.*;
  */
 public class LoginPanel extends javax.swing.JPanel {
     static Connection con;
+    static boolean isEmployee;
+    static boolean isAdmin;
     /**
      * Creates new form LoginPanel
      */
     public LoginPanel() {
         initComponents();
         jButton1.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 try{
@@ -36,16 +37,23 @@ public class LoginPanel extends javax.swing.JPanel {
                     ResultSet rs = stmt.executeQuery("SELECT * FROM accountInfo");
                     
                     while(rs.next()){
-                        
                         String un = rs.getString("username");
-                        boolean isEmployee =  rs.getBoolean("employee");
-                        boolean isAdmin = rs.getBoolean("admin");
+                        isEmployee =  rs.getBoolean("employee");
+                        isAdmin = rs.getBoolean("admin");
                         String pw = rs.getString("password");
                         
                         if( jTextField1.getText().equals(un) && String.valueOf(jPasswordField1.getPassword()).equals(pw)){
                                 EMovieStoreFrame.loginPanel.setVisible(false);
                                 EMovieStoreFrame.emsf.remove(EMovieStoreFrame.loginPanel);
                                 EMovieStoreFrame.emsf.add(EMovieStoreFrame.homePanel, BorderLayout.CENTER);
+                                EMovieStoreFrame.homePanel.custDelinquencyTB.setEnabled(true);
+                                EMovieStoreFrame.homePanel.customerReportsTB.setEnabled(true);
+                                EMovieStoreFrame.homePanel.inventoryTB.setEnabled(true);
+                                EMovieStoreFrame.homePanel.lateChargesTB.setEnabled(true);
+                                EMovieStoreFrame.homePanel.rentTB.setEnabled(true);
+                                EMovieStoreFrame.homePanel.returnRentalMgmtTB.setEnabled(true);
+                                EMovieStoreFrame.homePanel.returnTB.setEnabled(true);
+                                EMovieStoreFrame.homePanel.registerModifyTB.setEnabled(true);
                                 if(!isEmployee){//user is a customer
                                     EMovieStoreFrame.homePanel.custDelinquencyTB.setEnabled(false);
                                     EMovieStoreFrame.homePanel.customerReportsTB.setEnabled(false);
@@ -120,7 +128,7 @@ public class LoginPanel extends javax.swing.JPanel {
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField1;
+    javax.swing.JPasswordField jPasswordField1;
+    javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

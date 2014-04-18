@@ -29,10 +29,108 @@ public class HomePanel extends javax.swing.JPanel {
                     EMovieStoreFrame.homePanel.setVisible(false);
                     EMovieStoreFrame.emsf.remove(EMovieStoreFrame.homePanel);
                     EMovieStoreFrame.emsf.add(EMovieStoreFrame.loginPanel);
+                    EMovieStoreFrame.loginPanel.isEmployee = false;
+                    EMovieStoreFrame.loginPanel.isAdmin = false;
+                    EMovieStoreFrame.loginPanel.jTextField1.setText("username");
+                    EMovieStoreFrame.loginPanel.jPasswordField1.setText("password");
                     EMovieStoreFrame.loginPanel.setVisible(true);
                 } catch (SQLException ex) {
                     System.out.println(ex);
                 }
+            }
+        });
+        
+        custDelinquencyTB.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                custDelinquencyTB.setSelected(false);
+            }
+        });
+        
+        customerReportsTB.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                customerReportsTB.setSelected(false);            }
+        });
+        
+        inventoryTB.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                inventoryTB.setSelected(false);
+            }
+        });
+        
+        lateChargesTB.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                lateChargesTB.setSelected(false);
+            }
+        });
+        
+        registerModifyTB.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(LoginPanel.isAdmin || LoginPanel.isEmployee){
+                    EMovieStoreFrame.loginPanel.setVisible(false);
+                    EMovieStoreFrame.emsf.remove(EMovieStoreFrame.loginPanel);
+                    EMovieStoreFrame.registrationPanel.setVisible(true);
+                    EMovieStoreFrame.emsf.add(EMovieStoreFrame.registrationPanel);
+                }
+                registerModifyTB.setSelected(false);
+            }
+        });
+        
+        rentTB.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                rentTB.setSelected(false);
+            }
+        });
+        
+        reserveTB.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                reserveTB.setSelected(false);
+            }
+        });
+        
+        returnRentalMgmtTB.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                returnRentalMgmtTB.setSelected(false);
+            }
+        });
+        
+        returnTB.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                returnTB.setSelected(false);
+            }
+        });
+        
+        searchTB.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                searchTB.setSelected(false);
+            }
+        });
+        
+        viewPayTB.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                viewPayTB.setSelected(false);
             }
         });
     }
