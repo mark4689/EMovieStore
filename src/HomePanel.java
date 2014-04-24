@@ -2,6 +2,7 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import javax.swing.JFrame;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -29,8 +30,8 @@ public class HomePanel extends javax.swing.JPanel {
                     EMovieStoreFrame.homePanel.setVisible(false);
                     EMovieStoreFrame.emsf.remove(EMovieStoreFrame.homePanel);
                     EMovieStoreFrame.emsf.add(EMovieStoreFrame.loginPanel);
-                    EMovieStoreFrame.loginPanel.isEmployee = false;
-                    EMovieStoreFrame.loginPanel.isAdmin = false;
+                    LoginPanel.isEmployee = false;
+                    LoginPanel.isAdmin = false;
                     EMovieStoreFrame.loginPanel.jTextField1.setText("username");
                     EMovieStoreFrame.loginPanel.jPasswordField1.setText("password");
                     EMovieStoreFrame.loginPanel.setVisible(true);
@@ -76,12 +77,16 @@ public class HomePanel extends javax.swing.JPanel {
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(LoginPanel.isAdmin || LoginPanel.isEmployee){
                     EMovieStoreFrame.loginPanel.setVisible(false);
                     EMovieStoreFrame.emsf.remove(EMovieStoreFrame.loginPanel);
+                    JFrame aFrame = new JFrame();
+                    aFrame.setSize(500,500);
+                    RegistrationPanel tempRP = new RegistrationPanel();
+                    tempRP.setVisible(true);
+                    aFrame.add(tempRP);
+                    aFrame.setVisible(true);
+                    System.out.println("Register a user.");
                     EMovieStoreFrame.registrationPanel.setVisible(true);
-                    EMovieStoreFrame.emsf.add(EMovieStoreFrame.registrationPanel);
-                }
                 registerModifyTB.setSelected(false);
             }
         });

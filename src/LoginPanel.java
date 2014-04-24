@@ -38,11 +38,11 @@ public class LoginPanel extends javax.swing.JPanel {
                     
                     while(rs.next()){
                         String un = rs.getString("username");
-                        isEmployee =  rs.getBoolean("employee");
-                        isAdmin = rs.getBoolean("admin");
                         String pw = rs.getString("password");
                         
                         if( jTextField1.getText().equals(un) && String.valueOf(jPasswordField1.getPassword()).equals(pw)){
+                                isEmployee =  rs.getBoolean("employee");
+                                isAdmin = rs.getBoolean("admin");
                                 EMovieStoreFrame.loginPanel.setVisible(false);
                                 EMovieStoreFrame.emsf.remove(EMovieStoreFrame.loginPanel);
                                 EMovieStoreFrame.emsf.add(EMovieStoreFrame.homePanel, BorderLayout.CENTER);
@@ -83,7 +83,14 @@ public class LoginPanel extends javax.swing.JPanel {
         });
         
     }
-
+    
+    public boolean isAdmin(){
+        return isAdmin;
+    }
+    
+    public boolean isEmployee(){
+        return isEmployee;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
