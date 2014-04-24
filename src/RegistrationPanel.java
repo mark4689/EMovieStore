@@ -1,7 +1,6 @@
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.math.BigDecimal;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,85 +27,119 @@ public class RegistrationPanel extends javax.swing.JPanel {
             jCheckBox1.setEnabled(false);
             jCheckBox2.setEnabled(false);
         }
-        
+
         jButton2.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    String username = jTextField3.getText();
-                    if (!"username".equals(username)){
-                        LoginPanel.con = DriverManager.getConnection("jdbc:derby://localhost"
-                                + ":1527/EMovieStoreDB", "administrator", "password");
-                        Statement stmt = LoginPanel.con.createStatement();
+                    LoginPanel.con = DriverManager.getConnection("jdbc:derby://localhost"
+                            + ":1527/EMovieStoreDB", "administrator", "password");
+                    Statement stmt = LoginPanel.con.createStatement();
+                    String username = jTextField4.getText();
+                    if ("username".equals(username)) {
+                        String SQL_Statement = "INSERT INTO ACCOUNTINFO (USERNAME, "
+                                + "PASSWORD, FIRSTNAME, LASTNAME, ADDRESS, LOCALITY, STATE, "
+                                + "PHONENUMBER, CREDITCARDNO, EMAIL, ADMIN, EMPLOYEE) "
+                                + "values (?,?,?,?,?,?,?,?,?,?,?,?)";
+                        PreparedStatement pstmt = LoginPanel.con.prepareStatement(SQL_Statement);
+                        pstmt.setString(1, jTextField3.getText());
+                        pstmt.setString(2, String.valueOf(jPasswordField1.getPassword()));
+                        pstmt.setString(3, jTextField1.getText());
+                        pstmt.setString(4, jTextField2.getText());
+                        pstmt.setString(5, jTextField5.getText());
+                        pstmt.setString(6, jTextField6.getText());
+                        pstmt.setString(7, jTextField7.getText());
+                        pstmt.setInt(8, Integer.parseInt(jTextField10.getText()));
+                        pstmt.setInt(9, Integer.parseInt(jTextField8.getText()));
+                        pstmt.setString(10, jTextField9.getText());
+                        pstmt.setBoolean(11, jCheckBox1.isSelected());
+                        pstmt.setBoolean(12, jCheckBox2.isSelected());
+                        pstmt.execute();
+                        System.out.println("User Added.");
+                    } else if (!"username".equals(username)) {
+                        String SQL_Statement = "UPDATE ACCOUNTINFO SET USERNAME = ?,"
+                                + "PASSWORD = ?, FIRSTNAME = ?, LASTNAME = ?, ADDRESS = ?, "
+                                + "LOCALITY = ?, STATE = ?, PHONENUMBER = ?, CREDITCARDNO = ?, "
+                                + "EMAIL = ?, ADMIN = ?, EMPLOYEE = ? WHERE USERNAME = '" + username + "'";
                         ResultSet rs = stmt.executeQuery("SELECT * FROM accountInfo");
-                        while(rs.next()){
-                            if(username.equals(rs.getString("username"))){
-                                String SQL_Statement0 = "UPDATE ACCOUNTINFO SET firstname = ? WHERE username = '" + username + "'";
-                                String SQL_Statement1 = "UPDATE ACCOUNTINFO SET lastname = ? WHERE username = '" + username + "'";
-                                String SQL_Statement2 = "UPDATE ACCOUNTINFO SET username = ? WHERE username = '" + username + "'";
-                                String SQL_Statement3 = "UPDATE ACCOUNTINFO SET password = ? WHERE username = '" + username + "'";
-                                String SQL_Statement4 = "UPDATE ACCOUNTINFO SET address = ? WHERE username = '" + username + "'";
-                                String SQL_Statement5 = "UPDATE ACCOUNTINFO SET locality = ? WHERE username = '" + username + "'";
-                                String SQL_Statement6 = "UPDATE ACCOUNTINFO SET state = ? WHERE username = '" + username + "'";
-                                String SQL_Statement7 = "UPDATE ACCOUNTINFO SET phonenumber = ? WHERE username = '" + username + "'";
-                                String SQL_Statement8 = "UPDATE ACCOUNTINFO SET creditcardno = ? WHERE username = '" + username + "'";
-                                String SQL_Statement9 = "UPDATE ACCOUNTINFO SET email = ? WHERE username = '" + username + "'";
-                                String SQL_Statement10 = "UPDATE ACCOUNTINFO SET admin = ? WHERE username = '" + username + "'";
-                                String SQL_Statement11 = "UPDATE ACCOUNTINFO SET employee = ? WHERE username = '" + username + "'";
-
-                                PreparedStatement updateQuery = LoginPanel.con.prepareStatement(SQL_Statement0);
-                                updateQuery.setString(1, jTextField1.getText());
-                                updateQuery.execute();
-                                updateQuery = LoginPanel.con.prepareStatement(SQL_Statement1);
-                                updateQuery.setString(1, jTextField2.getText());
-                                updateQuery.execute();
-                                updateQuery = LoginPanel.con.prepareStatement(SQL_Statement2);
-                                updateQuery.setString(1, username);
-                                updateQuery.execute();
-                                updateQuery = LoginPanel.con.prepareStatement(SQL_Statement3);
-                                updateQuery.setString(1, String.valueOf(jPasswordField1.getPassword()));
-                                updateQuery.execute();
-                                updateQuery = LoginPanel.con.prepareStatement(SQL_Statement4);
-                                updateQuery.setString(1, jTextField5.getText());
-                                updateQuery.execute();
-                                updateQuery = LoginPanel.con.prepareStatement(SQL_Statement5);
-                                updateQuery.setString(1, jTextField6.getText());
-                                updateQuery.execute();
-                                updateQuery = LoginPanel.con.prepareStatement(SQL_Statement6);
-                                updateQuery.setString(1, jTextField7.getText());
-                                updateQuery.execute();
-                                updateQuery = LoginPanel.con.prepareStatement(SQL_Statement7);
-                                updateQuery.setBigDecimal(1, BigDecimal.valueOf(Integer.getInteger(jTextField10.getText()).longValue()));
-                                updateQuery.execute();
-                                updateQuery = LoginPanel.con.prepareStatement(SQL_Statement8);
-                                updateQuery.setBigDecimal(1, BigDecimal.valueOf(Integer.getInteger(jTextField8.getText()).longValue()));
-                                updateQuery.execute();
-                                updateQuery = LoginPanel.con.prepareStatement(SQL_Statement9);
-                                updateQuery.setString(1, jTextField9.getText());
-                                updateQuery.execute();
-                                updateQuery = LoginPanel.con.prepareStatement(SQL_Statement10);
-                                updateQuery.setBoolean(1, jCheckBox1.isSelected());
-                                updateQuery.execute();
-                                updateQuery = LoginPanel.con.prepareStatement(SQL_Statement11);
-                                updateQuery.setBoolean(1, jCheckBox2.isSelected());
-                                updateQuery.execute();
+                        while (rs.next()) {
+                            if (username.equals(rs.getString("username"))) {
+                                PreparedStatement pstmt = LoginPanel.con.prepareStatement(SQL_Statement);
+                                pstmt.setString(1, jTextField3.getText());
+                                pstmt.setString(2, String.valueOf(jPasswordField1.getPassword()));
+                                pstmt.setString(3, jTextField1.getText());
+                                pstmt.setString(4, jTextField2.getText());
+                                pstmt.setString(5, jTextField5.getText());
+                                pstmt.setString(6, jTextField6.getText());
+                                pstmt.setString(7, jTextField7.getText());
+                                pstmt.setInt(8, Integer.getInteger(jTextField10.getText()));
+                                pstmt.setInt(9, Integer.getInteger(jTextField8.getText()));
+                                pstmt.setString(10, jTextField9.getText());
+                                pstmt.setBoolean(11, jCheckBox1.isSelected());
+                                pstmt.setBoolean(12, jCheckBox2.isSelected());
+                                pstmt.executeUpdate();
+                                System.out.println("User Updated.");
+//                                //String SQL_Statement0 = "UPDATE ACCOUNTINFO SET firstname = ? WHERE username = '" + username + "'";
+//                                String SQL_Statement1 = "UPDATE ACCOUNTINFO SET lastname = ? WHERE username = '" + username + "'";
+//                                String SQL_Statement2 = "UPDATE ACCOUNTINFO SET username = ? WHERE username = '" + username + "'";
+//                                String SQL_Statement3 = "UPDATE ACCOUNTINFO SET password = ? WHERE username = '" + username + "'";
+//                                String SQL_Statement4 = "UPDATE ACCOUNTINFO SET address = ? WHERE username = '" + username + "'";
+//                                String SQL_Statement5 = "UPDATE ACCOUNTINFO SET locality = ? WHERE username = '" + username + "'";
+//                                String SQL_Statement6 = "UPDATE ACCOUNTINFO SET state = ? WHERE username = '" + username + "'";
+//                                String SQL_Statement7 = "UPDATE ACCOUNTINFO SET phonenumber = ? WHERE username = '" + username + "'";
+//                                String SQL_Statement8 = "UPDATE ACCOUNTINFO SET creditcardno = ? WHERE username = '" + username + "'";
+//                                String SQL_Statement9 = "UPDATE ACCOUNTINFO SET email = ? WHERE username = '" + username + "'";
+//                                String SQL_Statement10 = "UPDATE ACCOUNTINFO SET admin = ? WHERE username = '" + username + "'";
+//                                String SQL_Statement11 = "UPDATE ACCOUNTINFO SET employee = ? WHERE username = '" + username + "'";
+//
+//                                PreparedStatement updateQuery = LoginPanel.con.prepareStatement(SQL_Statement0);
+//                                updateQuery.setString(1, jTextField1.getText());
+//                                updateQuery.execute();
+//                                updateQuery = LoginPanel.con.prepareStatement(SQL_Statement1);
+//                                updateQuery.setString(1, jTextField2.getText());
+//                                updateQuery.execute();
+//                                updateQuery = LoginPanel.con.prepareStatement(SQL_Statement2);
+//                                updateQuery.setString(1, username);
+//                                updateQuery.execute();
+//                                updateQuery = LoginPanel.con.prepareStatement(SQL_Statement3);
+//                                updateQuery.setString(1, String.valueOf(jPasswordField1.getPassword()));
+//                                updateQuery.execute();
+//                                updateQuery = LoginPanel.con.prepareStatement(SQL_Statement4);
+//                                updateQuery.setString(1, jTextField5.getText());
+//                                updateQuery.execute();
+//                                updateQuery = LoginPanel.con.prepareStatement(SQL_Statement5);
+//                                updateQuery.setString(1, jTextField6.getText());
+//                                updateQuery.execute();
+//                                updateQuery = LoginPanel.con.prepareStatement(SQL_Statement6);
+//                                updateQuery.setString(1, jTextField7.getText());
+//                                updateQuery.execute();
+//                                updateQuery = LoginPanel.con.prepareStatement(SQL_Statement7);
+//                                updateQuery.setInt(1, (int) Integer.getInteger(jTextField10.getText()).longValue());
+//                                updateQuery.execute();
+//                                updateQuery = LoginPanel.con.prepareStatement(SQL_Statement8);
+//                                updateQuery.setInt(1, (int) Integer.getInteger(jTextField8.getText()).longValue());
+//                                updateQuery.execute();
+//                                updateQuery = LoginPanel.con.prepareStatement(SQL_Statement9);
+//                                updateQuery.setString(1, jTextField9.getText());
+//                                updateQuery.execute();
+//                                updateQuery = LoginPanel.con.prepareStatement(SQL_Statement10);
+//                                updateQuery.setBoolean(1, jCheckBox1.isSelected());
+//                                updateQuery.execute();
+//                                updateQuery = LoginPanel.con.prepareStatement(SQL_Statement11);
+//                                updateQuery.setBoolean(1, jCheckBox2.isSelected());
+//                                updateQuery.execute();
+                                break;
                             }
                         }
-                        
                     }
-                    
-                    Statement stmt = LoginPanel.con.createStatement();
-                    ResultSet rs = stmt.executeQuery("SELECT * FROM accountInfo");
-                    
-                    
                 } catch (SQLException ex) {
                     System.out.println(ex);
                 }
-                   
+
             }
         });
-        
+
         jButton3.addActionListener(new ActionListener() {
 
             @Override
@@ -153,7 +186,17 @@ public class RegistrationPanel extends javax.swing.JPanel {
                         System.out.println(sqlEx);
                     }
                 } else {
-                    jTextField1.setText("username");
+                    jTextField1.setText("First Name");
+                    jTextField2.setText("Last Name");
+                    jTextField4.setText("username");
+                    jTextField3.setText("username");
+                    jPasswordField1.setText("password");
+                    jTextField10.setText("Phone No.");
+                    jTextField5.setText("Address");
+                    jTextField6.setText("City / Locality");
+                    jTextField7.setText("State");
+                    jTextField8.setText("CC Number");
+                    jTextField9.setText("email");
                 }
             }
         });
