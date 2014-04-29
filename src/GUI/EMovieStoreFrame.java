@@ -28,7 +28,7 @@ public class EMovieStoreFrame extends JFrame {
      */
     private EMovieStoreFrame() {
         initComponents();
-        
+        dBA = new DBAdapter();
         loginPanel = new LoginPanel();
         homePanel = new HomePanel();
         registrationPanel = new RegistrationPanel();

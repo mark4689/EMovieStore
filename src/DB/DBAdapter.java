@@ -18,7 +18,7 @@ public class DBAdapter {
     private static Connection con = null;
     private static Boolean admin, employee;
     
-    public DBAdapter(User currentUser){
+    public DBAdapter(){
         if (con == null) {
             try {
                 Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();
