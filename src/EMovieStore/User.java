@@ -191,4 +191,12 @@ public abstract class User {
         this.ccNumber = ccNumber;
     }
     
+    @Override
+    public String toString(){
+        
+        return this.getUsername()+ "\t:\t" + this.getfName() + '\t' + this.getlName() + '\t' 
+                + this.getAddress() + '\t' + this.getLocality() + '\t' + this.getState() + '\t' 
+                + this.getEmail() + '\n';
+    }
+    
 }

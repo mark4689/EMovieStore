@@ -138,4 +138,11 @@ public class MovieStoreItem {
         this.classification = classification;
     }
     
+    @Override
+    public String toString(){
+        
+        return this.getTitle() + "\t:\t" + this.getClassification() + '\t' + this.getStatus() + '\t'
+                + this.getNumAvailable() + '/' + this.getNumCopies() + '\t' + this.getRentalRate() +'\n';
+    }
+    
 }

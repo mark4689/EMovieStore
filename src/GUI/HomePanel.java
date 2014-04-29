@@ -3,6 +3,8 @@ package GUI;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -51,9 +53,17 @@ public class HomePanel extends JPanel {
         });
 
         inventoryTB.addActionListener(new ActionListener() {
-
+                
             @Override
             public void actionPerformed(ActionEvent e) {
+                
+                JFrame aFrame = new JFrame();
+                aFrame.setSize(500, 500);
+                //RegistrationPanel tempRP = new RegistrationPanel();
+                //tempRP.setVisible(true);
+                EMovieStoreFrame.getAdminInventoryPanel().setVisible(true);
+                aFrame.add(EMovieStoreFrame.getAdminInventoryPanel());
+                aFrame.setVisible(true);
                 inventoryTB.setSelected(false);
             }
         });
@@ -71,7 +81,11 @@ public class HomePanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 EMovieStoreFrame.getLoginPanel().setVisible(false);
-                EMovieStoreFrame.instanceOf().remove(EMovieStoreFrame.getLoginPanel());
+                try {
+                    EMovieStoreFrame.instanceOf().remove(EMovieStoreFrame.getLoginPanel());
+                } catch (SQLException ex) {
+                    Logger.getLogger(HomePanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 JFrame aFrame = new JFrame();
                 aFrame.setSize(500, 500);
                 RegistrationPanel tempRP = new RegistrationPanel();

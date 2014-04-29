@@ -4,6 +4,9 @@ package GUI;
 import DB.DBAdapter;
 import EMovieStore.User;
 import java.awt.BorderLayout;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 
 /*
@@ -20,22 +23,25 @@ public class EMovieStoreFrame extends JFrame {
     private static LoginPanel loginPanel;
     private static HomePanel homePanel;
     private static RegistrationPanel registrationPanel;
+    private static AdminInventory adminInventoryPanel;
     private static DBAdapter dBA;
     private static EMovieStoreFrame emsf = null;
     static User currentUser;
     /**
      * Creates new form NewJFrame
      */
-    private EMovieStoreFrame() {
+    private EMovieStoreFrame() throws SQLException {
         initComponents();
         dBA = new DBAdapter();
         loginPanel = new LoginPanel();
         homePanel = new HomePanel();
         registrationPanel = new RegistrationPanel();
+        adminInventoryPanel = new AdminInventory();
         
         loginPanel.setVisible(true);
         homePanel.setVisible(false);
         registrationPanel.setVisible(false);
+        adminInventoryPanel.setVisible(false);
         
         this.setLayout(new BorderLayout());
         this.setSize(500,500);
@@ -44,7 +50,7 @@ public class EMovieStoreFrame extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     
-    public static EMovieStoreFrame instanceOf(){
+    public static EMovieStoreFrame instanceOf() throws SQLException{
         if(emsf == null)
             emsf = new EMovieStoreFrame();
         
@@ -61,6 +67,10 @@ public class EMovieStoreFrame extends JFrame {
     
     public static RegistrationPanel getRegistrationPanel(){
         return registrationPanel;
+    }
+    
+    public static AdminInventory getAdminInventoryPanel(){
+        return adminInventoryPanel;
     }
     
     public static DBAdapter getDBA(){
@@ -124,7 +134,11 @@ public class EMovieStoreFrame extends JFrame {
             @Override
             public void run() {
                 EMovieStoreFrame eMovieStoreFrame;
-                eMovieStoreFrame = instanceOf();
+                try {
+                    eMovieStoreFrame = instanceOf();
+                } catch (SQLException ex) {
+                    Logger.getLogger(EMovieStoreFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

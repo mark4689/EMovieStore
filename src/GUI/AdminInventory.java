@@ -6,17 +6,57 @@
 
 package GUI;
 
+import EMovieStore.MovieStoreItem;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Logger;
+
 /**
  *
  * @author mark4689
  */
 public class AdminInventory extends javax.swing.JPanel {
-
+    private ArrayList<MovieStoreItem> invList = new ArrayList();
+    private ResultSet listData;
     /**
      * Creates new form AdminInventory
      */
-    public AdminInventory() {
+    public AdminInventory() throws SQLException {
         initComponents();
+       
+        listData = EMovieStoreFrame.getDBA().runQuery("SELECT * FROM INVENTORY");
+        while(listData.next()){
+            MovieStoreItem msi = new MovieStoreItem(listData.getString("class"),listData.getInt("copiesavailable"),
+                    listData.getInt("copiestotal"),listData.getInt("rentalperiod"), listData.getDouble("rentalRate"),
+                    listData.getString("status"), listData.getString("titlename"));
+            invList.add(msi);
+                    //MovieStoreItem(String classification, int numAvailable, int numCopies, 
+                    //int rentalPeriod,double rentalRate, String status, String title)
+        }
+        
+        jList1.setListData(invList.toArray());
+        
+        jButton1.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int numSelected = jList1.getSelectedIndices().length;
+                String SQL_Statement;
+                if(jComboBox1.getSelectedItem().equals("Available")||jComboBox1.getSelectedItem().equals("NotAvailable")){
+                for(int i = 0; i < numSelected; i++){
+                    SQL_Statement = "UPDATE INVENTORY SET STATUS = ? WHERE TITLENAME =";
+                    try {
+                        EMovieStoreFrame.getDBA().runQuery(SQL_Statement);
+                    } catch (SQLException ex) {
+                        System.out.println(ex);
+                    }
+                }
+                }
+            }
+        });
     }
 
     /**
@@ -30,13 +70,16 @@ public class AdminInventory extends javax.swing.JPanel {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList();
+        jComboBox1 = new javax.swing.JComboBox();
+        jButton1 = new javax.swing.JButton();
 
-        jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
+        setBackground(new java.awt.Color(0, 153, 153));
+
         jScrollPane1.setViewportView(jList1);
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Add", "Delete", "NotAvailable", "Available", " " }));
+
+        jButton1.setText("Update");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -45,7 +88,11 @@ public class AdminInventory extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(219, Short.MAX_VALUE))
+                .addGap(60, 60, 60)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -53,11 +100,19 @@ public class AdminInventory extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(59, 59, 59)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables

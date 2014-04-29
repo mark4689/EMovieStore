@@ -12,7 +12,9 @@ import GUI.EMovieStoreFrame;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  *
@@ -43,6 +45,10 @@ public class DBAdapter {
         return con;
     }
 
+    public ResultSet runQuery(String SQL_Statement) throws SQLException{
+        Statement stmt = con.createStatement();
+        return stmt.executeQuery(SQL_Statement);
+    }
     public void updateUserDB(String SQL_Statement, User u) {
         try {
             PreparedStatement pstmt = EMovieStoreFrame.getDBA().getConnection().prepareStatement(SQL_Statement);
