@@ -49,16 +49,26 @@ public class RegistrationPanel extends javax.swing.JPanel {
                                 + "PASSWORD, FIRSTNAME, LASTNAME, ADDRESS, LOCALITY, STATE, "
                                 + "PHONENUMBER, CREDITCARDNO, EMAIL, ADMIN, EMPLOYEE) "
                                 + "values (?,?,?,?,?,?,?,?,?,?,?,?)";
-                        Employee empl = (Employee)EMovieStoreFrame.currentUser;
-                        User user = empl.registerUser(jTextField1.getText(), jTextField2.getText(), 
-                                jTextField5.getText(), jTextField6.getText(), jTextField7.getText(), 
-                                jTextField9.getText(), jTextField3.getText(), 
-                                String.valueOf(jPasswordField1.getPassword()), Long.getLong(jTextField10.getText()), 
-                                Long.getLong(jTextField8.getText()));
+                        Employee empl = null;
+                        if (EMovieStoreFrame.currentUser instanceof Employee
+                                || EMovieStoreFrame.currentUser instanceof Admin) {
+                            empl = new Employee();
+                        }
+                        User user = null;
+                        if (empl != null) {
+                            user = empl.registerUser(jTextField1.getText(), jTextField2.getText(),
+                                    jTextField5.getText(), jTextField6.getText(), jTextField7.getText(),
+                                    jTextField9.getText(), jTextField3.getText(),
+                                    String.valueOf(jPasswordField1.getPassword()), Long.parseLong(jTextField10.getText()),
+                                    Long.parseLong(jTextField8.getText()));
+                        }
+
                        //registerUser(String firstname, String lastname, String address, String locality,
-                       //String state, String email, String username, String password, long phonenumber, long ccNumber)
-                        if (jCheckBox1.isSelected() && jCheckBox2.isSelected()) 
-                            user = (Admin)user;
+                        //String state, String email, String username, String password, long phonenumber, long ccNumber)
+                        if (jCheckBox1.isSelected() && jCheckBox2.isSelected() && user != null) {
+                            user = (Admin) user;
+                        }
+
 //                        user.setUsername(jTextField3.getText());
 //                        user.setPassword(String.valueOf(jPasswordField1.getPassword()));
 //                        user.setfName(jTextField1.getText());
@@ -70,7 +80,7 @@ public class RegistrationPanel extends javax.swing.JPanel {
 //                        user.setCcNumber(Long.getLong(jTextField8.getText()));
 //                        user.setEmail(jTextField9.getText());
                         EMovieStoreFrame.getDBA().updateUserDB(SQL_Statement, user);
-                        
+
                         System.out.println("User Added.");
                     } else if (!"username".equals(username)) {
                         String SQL_Statement = "UPDATE ACCOUNTINFO SET USERNAME = ?,"
@@ -80,7 +90,7 @@ public class RegistrationPanel extends javax.swing.JPanel {
                         ResultSet rs = stmt.executeQuery("SELECT * FROM accountInfo");
                         while (rs.next()) {
                             if (EMovieStoreFrame.currentUser instanceof Admin && jCheckBox3.isSelected()) {
-                                SQL_Statement = "DELETE FROM ACCOUNTINFO WHERE USERNAME = " + username;
+                                SQL_Statement = "DELETE FROM ACCOUNTINFO WHERE USERNAME = '" + username + "'";
                                 stmt.executeUpdate(SQL_Statement);
                                 break;
                             }

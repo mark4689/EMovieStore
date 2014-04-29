@@ -72,7 +72,10 @@ public class DBAdapter {
             
             pstmt.setBoolean(11, admin);
             pstmt.setBoolean(12, employee);
-            pstmt.executeUpdate();
+            if(SQL_Statement.contains("INSERT") || SQL_Statement.contains("DELETE"))
+                pstmt.executeUpdate(SQL_Statement);
+            else
+                pstmt.execute();
             
         } catch (SQLException ex) {
             System.out.println("updateDB Failed!");
