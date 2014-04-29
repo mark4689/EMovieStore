@@ -17,21 +17,22 @@ public class Employee extends User {
 
     public Employee(String firstname, String lastname, String address, String locality,
             String state, String email, String username, String password, long phonenumber) {
-        super(firstname, lastname, address, locality, state, email, username, password, phonenumber);
+        super(firstname, lastname, address, locality, state, email, username, password, phonenumber, 999999999);
         
     }
 
     @Override
-    void reserve(MovieStoreItem msi, Customer c) {
+    public void reserve(MovieStoreItem msi, Customer c) {
         c.getReservedList().add(msi);
     }
 
-    void rent(MovieStoreItem msi, Customer c){
+    public void rent(MovieStoreItem msi, Customer c){
         c.getRentedList().add(msi);
     }
     
-    Customer registerUser(String firstname, String lastname, String address, String locality,
-            String state, String email, String username, String password, long phonenumber){
-        return new Customer(firstname, lastname, address, locality, state, email, username, password, phonenumber);
+    public User registerUser(String firstname, String lastname, String address, String locality,
+            String state, String email, String username, String password, long phonenumber, long ccNumber){
+        if (ccNumber == 99999999) return new Employee(firstname, lastname, address, locality, state, email, username, password, phonenumber);
+        return new Customer(firstname, lastname, address, locality, state, email, username, password, phonenumber, ccNumber);
     }
 }

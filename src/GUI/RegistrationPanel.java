@@ -1,6 +1,9 @@
 package GUI;
 
-
+import EMovieStore.Admin;
+import EMovieStore.Customer;
+import EMovieStore.Employee;
+import EMovieStore.User;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -19,12 +22,14 @@ import java.sql.Statement;
  * @author mark4689
  */
 public class RegistrationPanel extends javax.swing.JPanel {
+
     private static Connection con;
+
     /**
      * Creates new form HomePanel
      */
     public RegistrationPanel() {
-        
+
         initComponents();
         if (!LoginPanel.isAdmin()) {
             jCheckBox1.setEnabled(false);
@@ -44,20 +49,28 @@ public class RegistrationPanel extends javax.swing.JPanel {
                                 + "PASSWORD, FIRSTNAME, LASTNAME, ADDRESS, LOCALITY, STATE, "
                                 + "PHONENUMBER, CREDITCARDNO, EMAIL, ADMIN, EMPLOYEE) "
                                 + "values (?,?,?,?,?,?,?,?,?,?,?,?)";
-                        PreparedStatement pstmt = con.prepareStatement(SQL_Statement);
-                        pstmt.setString(1, jTextField3.getText());
-                        pstmt.setString(2, String.valueOf(jPasswordField1.getPassword()));
-                        pstmt.setString(3, jTextField1.getText());
-                        pstmt.setString(4, jTextField2.getText());
-                        pstmt.setString(5, jTextField5.getText());
-                        pstmt.setString(6, jTextField6.getText());
-                        pstmt.setString(7, jTextField7.getText());
-                        pstmt.setInt(8, Integer.parseInt(jTextField10.getText()));
-                        pstmt.setInt(9, Integer.parseInt(jTextField8.getText()));
-                        pstmt.setString(10, jTextField9.getText());
-                        pstmt.setBoolean(11, jCheckBox1.isSelected());
-                        pstmt.setBoolean(12, jCheckBox2.isSelected());
-                        pstmt.execute();
+                        Employee empl = (Employee)EMovieStoreFrame.currentUser;
+                        User user = empl.registerUser(jTextField1.getText(), jTextField2.getText(), 
+                                jTextField5.getText(), jTextField6.getText(), jTextField7.getText(), 
+                                jTextField9.getText(), jTextField3.getText(), 
+                                String.valueOf(jPasswordField1.getPassword()), Long.getLong(jTextField10.getText()), 
+                                Long.getLong(jTextField8.getText()));
+                       //registerUser(String firstname, String lastname, String address, String locality,
+                       //String state, String email, String username, String password, long phonenumber, long ccNumber)
+                        if (jCheckBox1.isSelected() && jCheckBox2.isSelected()) 
+                            user = (Admin)user;
+//                        user.setUsername(jTextField3.getText());
+//                        user.setPassword(String.valueOf(jPasswordField1.getPassword()));
+//                        user.setfName(jTextField1.getText());
+//                        user.setlName(jTextField2.getText());
+//                        user.setAddress(jTextField5.getText());
+//                        user.setLocality(jTextField6.getText());
+//                        user.setState(jTextField7.getText());
+//                        user.setPhonenumber(Long.getLong(jTextField10.getText()));
+//                        user.setCcNumber(Long.getLong(jTextField8.getText()));
+//                        user.setEmail(jTextField9.getText());
+                        EMovieStoreFrame.getDBA().updateUserDB(SQL_Statement, user);
+                        
                         System.out.println("User Added.");
                     } else if (!"username".equals(username)) {
                         String SQL_Statement = "UPDATE ACCOUNTINFO SET USERNAME = ?,"
@@ -66,21 +79,33 @@ public class RegistrationPanel extends javax.swing.JPanel {
                                 + "EMAIL = ?, ADMIN = ?, EMPLOYEE = ? WHERE USERNAME = '" + username + "'";
                         ResultSet rs = stmt.executeQuery("SELECT * FROM accountInfo");
                         while (rs.next()) {
+                            if (EMovieStoreFrame.currentUser instanceof Admin && jCheckBox3.isSelected()) {
+                                SQL_Statement = "DELETE FROM ACCOUNTINFO WHERE USERNAME = " + username;
+                                stmt.executeUpdate(SQL_Statement);
+                                break;
+                            }
                             if (username.equals(rs.getString("username"))) {
-                                PreparedStatement pstmt = con.prepareStatement(SQL_Statement);
-                                pstmt.setString(1, jTextField3.getText());
-                                pstmt.setString(2, String.valueOf(jPasswordField1.getPassword()));
-                                pstmt.setString(3, jTextField1.getText());
-                                pstmt.setString(4, jTextField2.getText());
-                                pstmt.setString(5, jTextField5.getText());
-                                pstmt.setString(6, jTextField6.getText());
-                                pstmt.setString(7, jTextField7.getText());
-                                pstmt.setInt(8, Integer.getInteger(jTextField10.getText()));
-                                pstmt.setInt(9, Integer.getInteger(jTextField8.getText()));
-                                pstmt.setString(10, jTextField9.getText());
-                                pstmt.setBoolean(11, jCheckBox1.isSelected());
-                                pstmt.setBoolean(12, jCheckBox2.isSelected());
-                                pstmt.executeUpdate();
+                                User user;
+                                if (jCheckBox1.isSelected() && jCheckBox2.isSelected()) {
+                                    user = new Admin();
+                                } else if (jCheckBox2.isSelected()) {
+                                    user = new Employee();
+                                } else {
+                                    user = new Customer();
+                                }
+
+                                user.setUsername(jTextField3.getText());
+                                user.setPassword(String.valueOf(jPasswordField1.getPassword()));
+                                user.setfName(jTextField1.getText());
+                                user.setlName(jTextField2.getText());
+                                user.setAddress(jTextField5.getText());
+                                user.setLocality(jTextField6.getText());
+                                user.setState(jTextField7.getText());
+                                user.setPhonenumber(Long.getLong(jTextField10.getText()));
+                                user.setCcNumber(Long.getLong(jTextField8.getText()));
+                                user.setEmail(jTextField10.getText());
+
+                                EMovieStoreFrame.getDBA().updateUserDB(SQL_Statement, user);
                                 System.out.println("User Updated.");
                                 break;
                             }
@@ -178,6 +203,7 @@ public class RegistrationPanel extends javax.swing.JPanel {
         jTextField9 = new javax.swing.JTextField();
         jCheckBox1 = new javax.swing.JCheckBox();
         jCheckBox2 = new javax.swing.JCheckBox();
+        jCheckBox3 = new javax.swing.JCheckBox();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jTextField4 = new javax.swing.JTextField();
@@ -240,6 +266,9 @@ public class RegistrationPanel extends javax.swing.JPanel {
         jCheckBox2.setText("Employee");
         jPanel2.add(jCheckBox2);
 
+        jCheckBox3.setText("Delete User");
+        jPanel2.add(jCheckBox3);
+
         add(jPanel2);
 
         jPanel3.setBackground(new java.awt.Color(0, 153, 153));
@@ -274,6 +303,7 @@ public class RegistrationPanel extends javax.swing.JPanel {
     private javax.swing.JButton jButton3;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
+    private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

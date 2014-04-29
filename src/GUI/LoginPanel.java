@@ -57,7 +57,8 @@ public class LoginPanel extends javax.swing.JPanel {
                                 if(!isEmployee){//user is a customer
                                     EMovieStoreFrame.currentUser = new Customer(rs.getString("firstname"), rs.getString("lastname"),
                                             rs.getString("address"), rs.getString("locality"), rs.getString("state"), rs.getString("email"),
-                                            rs.getString("username"), rs.getString("password"), rs.getLong("phonenumber"));
+                                            rs.getString("username"), rs.getString("password"), rs.getLong("phonenumber"), rs.getLong("creditcardno"));
+                                    
                                     EMovieStoreFrame.getHomePanel().customerReportsTB.setEnabled(false);
                                     EMovieStoreFrame.getHomePanel().customerReportsTB.setEnabled(false);
                                     EMovieStoreFrame.getHomePanel().inventoryTB.setEnabled(false);

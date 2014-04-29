@@ -24,8 +24,8 @@ public class Customer extends User {
     }
     
     public Customer(String firstname, String lastname, String address, String locality, 
-            String state, String email, String username, String password, long phonenumber){
-        super(firstname, lastname, address, locality, state, email, username, password, phonenumber);
+            String state, String email, String username, String password, long phonenumber, long ccNumber){
+        super(firstname, lastname, address, locality, state, email, username, password, phonenumber, ccNumber);
         rentedList = new ArrayList();
         reservedList = new ArrayList();
         cc = new CreditCard();

@@ -20,6 +20,7 @@ public abstract class User {
     private String username;
     private String password;
     private long phonenumber;
+    private long ccNumber;
     
     User(){
         this.fName = "";
@@ -31,10 +32,11 @@ public abstract class User {
         this.username = "";
         this.password = "";
         this.phonenumber = 999999999;
+        this.ccNumber = 1111111111;
     }
     
     User(String firstname, String lastname, String address, String locality, 
-            String state, String email, String username, String password, long phonenumber){
+            String state, String email, String username, String password, long phonenumber, long ccNumber){
         this.setfName(firstname);
         this.setlName(lastname);
         this.setAddress(address);
@@ -44,6 +46,7 @@ public abstract class User {
         this.setUsername(username);
         this.setPassword(password);
         this.setPhonenumber(phonenumber);
+        this.setCcNumber(ccNumber);
     }
 
     /**
@@ -173,5 +176,19 @@ public abstract class User {
     }
     
     abstract void reserve(MovieStoreItem msi, Customer c);
+
+    /**
+     * @return the ccNumber
+     */
+    public long getCcNumber() {
+        return ccNumber;
+    }
+
+    /**
+     * @param ccNumber the ccNumber to set
+     */
+    public void setCcNumber(long ccNumber) {
+        this.ccNumber = ccNumber;
+    }
     
 }
