@@ -1,7 +1,9 @@
+package GUI;
+
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.DriverManager;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,13 +19,14 @@ import java.sql.Statement;
  * @author mark4689
  */
 public class RegistrationPanel extends javax.swing.JPanel {
-
+    private static Connection con;
     /**
      * Creates new form HomePanel
      */
     public RegistrationPanel() {
+        
         initComponents();
-        if (!LoginPanel.isAdmin) {
+        if (!LoginPanel.isAdmin()) {
             jCheckBox1.setEnabled(false);
             jCheckBox2.setEnabled(false);
         }
@@ -33,16 +36,15 @@ public class RegistrationPanel extends javax.swing.JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    LoginPanel.con = DriverManager.getConnection("jdbc:derby://localhost"
-                            + ":1527/EMovieStoreDB", "administrator", "password");
-                    Statement stmt = LoginPanel.con.createStatement();
+                    con = EMovieStoreFrame.getDBA().getConnection();
+                    Statement stmt = con.createStatement();
                     String username = jTextField4.getText();
                     if ("username".equals(username)) {
                         String SQL_Statement = "INSERT INTO ACCOUNTINFO (USERNAME, "
                                 + "PASSWORD, FIRSTNAME, LASTNAME, ADDRESS, LOCALITY, STATE, "
                                 + "PHONENUMBER, CREDITCARDNO, EMAIL, ADMIN, EMPLOYEE) "
                                 + "values (?,?,?,?,?,?,?,?,?,?,?,?)";
-                        PreparedStatement pstmt = LoginPanel.con.prepareStatement(SQL_Statement);
+                        PreparedStatement pstmt = con.prepareStatement(SQL_Statement);
                         pstmt.setString(1, jTextField3.getText());
                         pstmt.setString(2, String.valueOf(jPasswordField1.getPassword()));
                         pstmt.setString(3, jTextField1.getText());
@@ -65,7 +67,7 @@ public class RegistrationPanel extends javax.swing.JPanel {
                         ResultSet rs = stmt.executeQuery("SELECT * FROM accountInfo");
                         while (rs.next()) {
                             if (username.equals(rs.getString("username"))) {
-                                PreparedStatement pstmt = LoginPanel.con.prepareStatement(SQL_Statement);
+                                PreparedStatement pstmt = con.prepareStatement(SQL_Statement);
                                 pstmt.setString(1, jTextField3.getText());
                                 pstmt.setString(2, String.valueOf(jPasswordField1.getPassword()));
                                 pstmt.setString(3, jTextField1.getText());
@@ -80,55 +82,6 @@ public class RegistrationPanel extends javax.swing.JPanel {
                                 pstmt.setBoolean(12, jCheckBox2.isSelected());
                                 pstmt.executeUpdate();
                                 System.out.println("User Updated.");
-//                                //String SQL_Statement0 = "UPDATE ACCOUNTINFO SET firstname = ? WHERE username = '" + username + "'";
-//                                String SQL_Statement1 = "UPDATE ACCOUNTINFO SET lastname = ? WHERE username = '" + username + "'";
-//                                String SQL_Statement2 = "UPDATE ACCOUNTINFO SET username = ? WHERE username = '" + username + "'";
-//                                String SQL_Statement3 = "UPDATE ACCOUNTINFO SET password = ? WHERE username = '" + username + "'";
-//                                String SQL_Statement4 = "UPDATE ACCOUNTINFO SET address = ? WHERE username = '" + username + "'";
-//                                String SQL_Statement5 = "UPDATE ACCOUNTINFO SET locality = ? WHERE username = '" + username + "'";
-//                                String SQL_Statement6 = "UPDATE ACCOUNTINFO SET state = ? WHERE username = '" + username + "'";
-//                                String SQL_Statement7 = "UPDATE ACCOUNTINFO SET phonenumber = ? WHERE username = '" + username + "'";
-//                                String SQL_Statement8 = "UPDATE ACCOUNTINFO SET creditcardno = ? WHERE username = '" + username + "'";
-//                                String SQL_Statement9 = "UPDATE ACCOUNTINFO SET email = ? WHERE username = '" + username + "'";
-//                                String SQL_Statement10 = "UPDATE ACCOUNTINFO SET admin = ? WHERE username = '" + username + "'";
-//                                String SQL_Statement11 = "UPDATE ACCOUNTINFO SET employee = ? WHERE username = '" + username + "'";
-//
-//                                PreparedStatement updateQuery = LoginPanel.con.prepareStatement(SQL_Statement0);
-//                                updateQuery.setString(1, jTextField1.getText());
-//                                updateQuery.execute();
-//                                updateQuery = LoginPanel.con.prepareStatement(SQL_Statement1);
-//                                updateQuery.setString(1, jTextField2.getText());
-//                                updateQuery.execute();
-//                                updateQuery = LoginPanel.con.prepareStatement(SQL_Statement2);
-//                                updateQuery.setString(1, username);
-//                                updateQuery.execute();
-//                                updateQuery = LoginPanel.con.prepareStatement(SQL_Statement3);
-//                                updateQuery.setString(1, String.valueOf(jPasswordField1.getPassword()));
-//                                updateQuery.execute();
-//                                updateQuery = LoginPanel.con.prepareStatement(SQL_Statement4);
-//                                updateQuery.setString(1, jTextField5.getText());
-//                                updateQuery.execute();
-//                                updateQuery = LoginPanel.con.prepareStatement(SQL_Statement5);
-//                                updateQuery.setString(1, jTextField6.getText());
-//                                updateQuery.execute();
-//                                updateQuery = LoginPanel.con.prepareStatement(SQL_Statement6);
-//                                updateQuery.setString(1, jTextField7.getText());
-//                                updateQuery.execute();
-//                                updateQuery = LoginPanel.con.prepareStatement(SQL_Statement7);
-//                                updateQuery.setInt(1, (int) Integer.getInteger(jTextField10.getText()).longValue());
-//                                updateQuery.execute();
-//                                updateQuery = LoginPanel.con.prepareStatement(SQL_Statement8);
-//                                updateQuery.setInt(1, (int) Integer.getInteger(jTextField8.getText()).longValue());
-//                                updateQuery.execute();
-//                                updateQuery = LoginPanel.con.prepareStatement(SQL_Statement9);
-//                                updateQuery.setString(1, jTextField9.getText());
-//                                updateQuery.execute();
-//                                updateQuery = LoginPanel.con.prepareStatement(SQL_Statement10);
-//                                updateQuery.setBoolean(1, jCheckBox1.isSelected());
-//                                updateQuery.execute();
-//                                updateQuery = LoginPanel.con.prepareStatement(SQL_Statement11);
-//                                updateQuery.setBoolean(1, jCheckBox2.isSelected());
-//                                updateQuery.execute();
                                 break;
                             }
                         }
@@ -147,9 +100,8 @@ public class RegistrationPanel extends javax.swing.JPanel {
                 String un = jTextField4.getText();
                 if (!un.equals("username")) {
                     try {
-                        LoginPanel.con = DriverManager.getConnection("jdbc:derby://localhost"
-                                + ":1527/EMovieStoreDB", "administrator", "password");
-                        Statement stmt = LoginPanel.con.createStatement();
+                        con = EMovieStoreFrame.getDBA().getConnection();
+                        Statement stmt = con.createStatement();
                         ResultSet rs = stmt.executeQuery("SELECT * FROM accountInfo");
 
                         while (rs.next()) {

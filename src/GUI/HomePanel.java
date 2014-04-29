@@ -1,20 +1,21 @@
+package GUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author mark4689
  */
-public class HomePanel extends javax.swing.JPanel {
+public class HomePanel extends JPanel {
 
     /**
      * Creates new form RegisterPanel
@@ -26,37 +27,29 @@ public class HomePanel extends javax.swing.JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    LoginPanel.con.close();
-                    EMovieStoreFrame.homePanel.setVisible(false);
-                    EMovieStoreFrame.emsf.remove(EMovieStoreFrame.homePanel);
-                    EMovieStoreFrame.emsf.add(EMovieStoreFrame.loginPanel);
-                    LoginPanel.isEmployee = false;
-                    LoginPanel.isAdmin = false;
-                    EMovieStoreFrame.loginPanel.jTextField1.setText("username");
-                    EMovieStoreFrame.loginPanel.jPasswordField1.setText("password");
-                    EMovieStoreFrame.loginPanel.setVisible(true);
+                    EMovieStoreFrame.getDBA().getConnection().close();
+                    EMovieStoreFrame.getHomePanel().setVisible(false);
+                    EMovieStoreFrame.instanceOf().remove(EMovieStoreFrame.getHomePanel());
+                    EMovieStoreFrame.instanceOf().add(EMovieStoreFrame.getLoginPanel());
+                    LoginPanel.setEmployee(false);
+                    LoginPanel.setAdmin(false);
+                    EMovieStoreFrame.getLoginPanel().jTextField1.setText("username");
+                    EMovieStoreFrame.getLoginPanel().jPasswordField1.setText("password");
+                    EMovieStoreFrame.getLoginPanel().setVisible(true);
                 } catch (SQLException ex) {
                     System.out.println(ex);
                 }
             }
         });
-        
-        custDelinquencyTB.addActionListener(new ActionListener() {
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-                custDelinquencyTB.setSelected(false);
-            }
-        });
-        
         customerReportsTB.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                customerReportsTB.setSelected(false);            }
+                customerReportsTB.setSelected(false);
+            }
         });
-        
+
         inventoryTB.addActionListener(new ActionListener() {
 
             @Override
@@ -64,7 +57,7 @@ public class HomePanel extends javax.swing.JPanel {
                 inventoryTB.setSelected(false);
             }
         });
-        
+
         lateChargesTB.addActionListener(new ActionListener() {
 
             @Override
@@ -72,25 +65,25 @@ public class HomePanel extends javax.swing.JPanel {
                 lateChargesTB.setSelected(false);
             }
         });
-        
+
         registerModifyTB.addActionListener(new ActionListener() {
-            
+
             @Override
             public void actionPerformed(ActionEvent e) {
-                    EMovieStoreFrame.loginPanel.setVisible(false);
-                    EMovieStoreFrame.emsf.remove(EMovieStoreFrame.loginPanel);
-                    JFrame aFrame = new JFrame();
-                    aFrame.setSize(500,500);
-                    RegistrationPanel tempRP = new RegistrationPanel();
-                    tempRP.setVisible(true);
-                    aFrame.add(tempRP);
-                    aFrame.setVisible(true);
-                    System.out.println("Register a user.");
-                    EMovieStoreFrame.registrationPanel.setVisible(true);
+                EMovieStoreFrame.getLoginPanel().setVisible(false);
+                EMovieStoreFrame.instanceOf().remove(EMovieStoreFrame.getLoginPanel());
+                JFrame aFrame = new JFrame();
+                aFrame.setSize(500, 500);
+                RegistrationPanel tempRP = new RegistrationPanel();
+                tempRP.setVisible(true);
+                aFrame.add(tempRP);
+                aFrame.setVisible(true);
+                System.out.println("Register a user.");
+                EMovieStoreFrame.getRegistrationPanel().setVisible(true);
                 registerModifyTB.setSelected(false);
             }
         });
-        
+
         rentTB.addActionListener(new ActionListener() {
 
             @Override
@@ -98,7 +91,7 @@ public class HomePanel extends javax.swing.JPanel {
                 rentTB.setSelected(false);
             }
         });
-        
+
         reserveTB.addActionListener(new ActionListener() {
 
             @Override
@@ -106,7 +99,7 @@ public class HomePanel extends javax.swing.JPanel {
                 reserveTB.setSelected(false);
             }
         });
-        
+
         returnRentalMgmtTB.addActionListener(new ActionListener() {
 
             @Override
@@ -114,7 +107,7 @@ public class HomePanel extends javax.swing.JPanel {
                 returnRentalMgmtTB.setSelected(false);
             }
         });
-        
+
         returnTB.addActionListener(new ActionListener() {
 
             @Override
@@ -122,7 +115,7 @@ public class HomePanel extends javax.swing.JPanel {
                 returnTB.setSelected(false);
             }
         });
-        
+
         searchTB.addActionListener(new ActionListener() {
 
             @Override
@@ -130,7 +123,7 @@ public class HomePanel extends javax.swing.JPanel {
                 searchTB.setSelected(false);
             }
         });
-        
+
         viewPayTB.addActionListener(new ActionListener() {
 
             @Override
@@ -166,7 +159,6 @@ public class HomePanel extends javax.swing.JPanel {
         lateChargesTB = new javax.swing.JToggleButton();
         inventoryTB = new javax.swing.JToggleButton();
         customerReportsTB = new javax.swing.JToggleButton();
-        custDelinquencyTB = new javax.swing.JToggleButton();
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
@@ -235,20 +227,17 @@ public class HomePanel extends javax.swing.JPanel {
 
         jPanel6.setBackground(new java.awt.Color(0, 153, 153));
 
-        returnRentalMgmtTB.setText("Return/Rental Mgmt");
+        returnRentalMgmtTB.setText("Update Rental Status");
         jPanel6.add(returnRentalMgmtTB);
 
-        lateChargesTB.setText("Late Charges");
+        lateChargesTB.setText("Update Return Status");
         jPanel6.add(lateChargesTB);
 
-        inventoryTB.setText("Inventory");
+        inventoryTB.setText("Inventory Status");
         jPanel6.add(inventoryTB);
 
-        customerReportsTB.setText("Customer Reports");
+        customerReportsTB.setText("Store Options & Reports");
         jPanel6.add(customerReportsTB);
-
-        custDelinquencyTB.setText("Customer Delinquency");
-        jPanel6.add(custDelinquencyTB);
 
         jPanel4.add(jPanel6);
 
@@ -272,7 +261,6 @@ public class HomePanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    javax.swing.JToggleButton custDelinquencyTB;
     javax.swing.JToggleButton customerReportsTB;
     javax.swing.JToggleButton inventoryTB;
     private javax.swing.JLabel jLabel1;

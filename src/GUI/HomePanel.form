@@ -167,7 +167,7 @@
           <SubComponents>
             <Component class="javax.swing.JToggleButton" name="returnRentalMgmtTB">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Return/Rental Mgmt"/>
+                <Property name="text" type="java.lang.String" value="Update Rental Status"/>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
@@ -175,7 +175,7 @@
             </Component>
             <Component class="javax.swing.JToggleButton" name="lateChargesTB">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Late Charges"/>
+                <Property name="text" type="java.lang.String" value="Update Return Status"/>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
@@ -183,7 +183,7 @@
             </Component>
             <Component class="javax.swing.JToggleButton" name="inventoryTB">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Inventory"/>
+                <Property name="text" type="java.lang.String" value="Inventory Status"/>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
@@ -191,15 +191,7 @@
             </Component>
             <Component class="javax.swing.JToggleButton" name="customerReportsTB">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Customer Reports"/>
-              </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
-              </AuxValues>
-            </Component>
-            <Component class="javax.swing.JToggleButton" name="custDelinquencyTB">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Customer Delinquency"/>
+                <Property name="text" type="java.lang.String" value="Store Options &amp; Reports"/>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>

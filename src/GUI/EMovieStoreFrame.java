@@ -1,4 +1,8 @@
+package GUI;
 
+
+import DB.DBAdapter;
+import EMovieStore.User;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 
@@ -12,16 +16,19 @@ import javax.swing.JFrame;
  *
  * @author mark4689
  */
-public class EMovieStoreFrame extends javax.swing.JFrame {
-    static LoginPanel loginPanel;
-    static HomePanel homePanel;
-    static RegistrationPanel registrationPanel;
-    static EMovieStoreFrame emsf = null;
+public class EMovieStoreFrame extends JFrame {
+    private static LoginPanel loginPanel;
+    private static HomePanel homePanel;
+    private static RegistrationPanel registrationPanel;
+    private static DBAdapter dBA;
+    private static EMovieStoreFrame emsf = null;
+    static User currentUser;
     /**
      * Creates new form NewJFrame
      */
     private EMovieStoreFrame() {
         initComponents();
+        
         loginPanel = new LoginPanel();
         homePanel = new HomePanel();
         registrationPanel = new RegistrationPanel();
@@ -44,6 +51,22 @@ public class EMovieStoreFrame extends javax.swing.JFrame {
         return emsf;
     }
 
+    public static LoginPanel getLoginPanel(){
+        return loginPanel;
+    }
+    
+    public static HomePanel getHomePanel(){
+        return homePanel;
+    }
+    
+    public static RegistrationPanel getRegistrationPanel(){
+        return registrationPanel;
+    }
+    
+    public static DBAdapter getDBA(){
+        return dBA;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
